@@ -17,3 +17,6 @@ The project's success will be measured not only by the accuracy of its recommend
 
 Functionality of developed AI Assistant might be extended on wider range of use-cases in the future.
 ***
+
+## Diagram
+<img src="https://github.com/Tsalyk/DomainSpecificAIAssistant/blob/main/assets/AIMovieSearch.png" width="700" height="600">
