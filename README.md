@@ -1,5 +1,11 @@
 # DomainSpecificAIAssistant
 
+## Hyperlinks
+* [Meetings notes](https://docs.google.com/document/d/13XV529CzxseJ4wfdnEoQAKRNz8hCcIXpr1cMPGujlcE/edit?usp=sharing)
+* [Timeline](https://docs.google.com/document/d/1aeqbfDCny26YenkR2OS5SquHwYyDr2x-pAUu2QmLaPs/edit)
+* [Paper](https://www.overleaf.com/5719557289xktdcbzywfrb#2d969f)
+***
+
 ## Problem statement
 The capacity to rapidly and reliably find information on a certain area is critical for people in the broad landscape of digital content. The huge variety of content that is available to us overwhelms, making it difficult to identify novel material that suits our interests. Conventional search engines can deliver results based on popularity or broad relevancy, but they frequently can't recognise and accommodate personal preferences, which leads in less than ideal user experiences.
 ***
