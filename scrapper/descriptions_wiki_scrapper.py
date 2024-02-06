@@ -35,8 +35,8 @@ def get_movie_description(title: str) -> str:
             except:
                 pass
 
-    if len(content) > 0:
-        plot_pattern = re.compile(r'==\s*Plot\s*==\n(.*?)(?==|$)', re.DOTALL)
+    if not content:
+        return None
         plot_match = plot_pattern.search(content)
 
         if plot_match:
