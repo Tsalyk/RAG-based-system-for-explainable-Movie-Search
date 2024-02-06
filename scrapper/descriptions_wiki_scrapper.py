@@ -37,12 +37,13 @@ def get_movie_description(title: str) -> str:
 
     if not content:
         return None
+
+    if len(content) > 0:
+        plot_pattern = re.compile(r'==\s*Plot\s*==\n(.*?)(?==|$)', re.DOTALL)
         plot_match = plot_pattern.search(content)
 
         if plot_match:
             return plot_match.group(1).strip()
-
-    return None
 
 def wikipedia_loader(title: str):
     return wikipedia.page(title).content
