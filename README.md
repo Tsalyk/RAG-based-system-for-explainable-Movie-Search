@@ -3,7 +3,7 @@
 ## Hyperlinks
 * [Meetings notes](https://docs.google.com/document/d/13XV529CzxseJ4wfdnEoQAKRNz8hCcIXpr1cMPGujlcE/edit?usp=sharing)
 * [Timeline](https://docs.google.com/document/d/1aeqbfDCny26YenkR2OS5SquHwYyDr2x-pAUu2QmLaPs/edit)
-* [Paper](https://www.overleaf.com/5719557289xktdcbzywfrb#2d969f)
+* [Paper](https://www.overleaf.com/5328894874bzgyjztmzxbb#f507a1)
 ***
 
 ## Problem statement
