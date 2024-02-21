@@ -54,12 +54,9 @@ class VectorDB:
         genre = metadata.get('genre', '')
         if genre:
             filters['genre'] = genre.lower()
-        year = metadata.get('year', '')
-        if len(str(year)) > 0:
-            try:
-                filters['year'] = int(year)
-            except:
-                pass
+        year = int(metadata.get('year', '0'))
+        if year:
+            filters['year'] = int(year)
 
         search_results = self.index.query(
                     vector=query_embedding,
