@@ -16,6 +16,7 @@ class VectorDB:
     def __init__(self, api_key: str, dimension: int=384):
         self.pc = Pinecone(api_key)
         self.vector_dim = dimension
+        self.embedder = SentenceTransformer('all-MiniLM-L6-v2')
 
     def create_index(self, index_name: str, metric: str='cosine'):
         self.pc.create_index(
@@ -77,8 +78,7 @@ class VectorDB:
 
     @staticmethod
     def get_embedding(text: str) -> list:
-        embedder = SentenceTransformer('all-MiniLM-L6-v2')
-        embeddings = embedder.encode(text, convert_to_tensor=False)
+        embeddings = self.embedder.encode(text, convert_to_tensor=False)
         return embeddings.tolist()
 
     @staticmethod
