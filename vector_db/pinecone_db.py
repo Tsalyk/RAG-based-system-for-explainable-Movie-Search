@@ -89,8 +89,7 @@ class VectorDB:
                             chunk_overlap=20
                         )
         docs = text_splitter.create_documents([description])
-        docs = [str(doc) for doc in docs]
-        return docs
+        return list(map(str, docs))
 
     def get_movie_title(self, record_id: str) -> list:
         return self.get_metadata(record_id).get('title', '')
