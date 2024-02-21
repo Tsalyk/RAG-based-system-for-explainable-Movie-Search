@@ -2,14 +2,16 @@
 
 import ast
 import os
-from dotenv import load_dotenv
-load_dotenv()
 import uuid
-from pinecone import Pinecone, ServerlessSpec
+
 import pandas as pd
-from tqdm import tqdm
-from sentence_transformers import SentenceTransformer
+from dotenv import load_dotenv
 from langchain.text_splitter import CharacterTextSplitter
+from pinecone import Pinecone, ServerlessSpec
+from sentence_transformers import SentenceTransformer
+from tqdm import tqdm
+
+load_dotenv()
 
 
 class VectorDB:
