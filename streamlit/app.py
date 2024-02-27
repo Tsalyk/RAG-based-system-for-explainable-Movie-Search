@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import requests
 from dotenv import load_dotenv
+from llm_requests import *
 from pinecone import Pinecone
 from pinecone_db import *
 from sentence_transformers import SentenceTransformer
@@ -15,8 +16,8 @@ import streamlit as st
 load_dotenv()
 
 
-def search_movies(db, query: str, metadata: pd.DataFrame, data: pd.DataFrame) -> pd.DataFrame:
-    result = db.search_movies(query, metadata, k=10, min_similarity_score=0)
+def search_movies(db, query: str, metadata: pd.DataFrame, data: pd.DataFrame, k=10, min_similarity_score=0) -> pd.DataFrame:
+    result = db.search_movies(query, metadata, k=k, min_similarity_score=min_similarity_score)
     titles = np.unique([movie['title'] for movie in result])
     titles, descriptions = [], []
     for movie in result:
@@ -32,38 +33,6 @@ def search_movies(db, query: str, metadata: pd.DataFrame, data: pd.DataFrame) ->
         data.loc[data['title'] == title, 'rag_description'] = description
 
     return data
-
-def extract_metadata(query: str):
-    url = 'https://randomly-excited-gnat.ngrok-free.app/extract_metadata'
-    body = {
-        "query": query,
-        "parameters": {}
-    }
-    try:
-        response = requests.post(url, json=body)
-        if response.status_code == 200:
-            return response.json()
-        else:
-            return {"error": f"Request failed with status code {response.status_code}"}
-    except Exception as e:
-        return {"error": f"An error occurred: {str(e)}"}
-
-def generate_reasoning(title: str, description: str, query: str):
-    url = 'https://randomly-excited-gnat.ngrok-free.app/generate_reasoning'
-    body = {
-        "title": title,
-        "query": query,
-        "description": description,
-        "parameters": {}
-    }
-    try:
-        response = requests.post(url, json=body)
-        if response.status_code == 200:
-            return response.json()
-        else:
-            return {"error": f"Request failed with status code {response.status_code}"}
-    except Exception as e:
-        return {"error": f"An error occurred: {str(e)}"}
 
 def stream_reasoning(reasoning: str):
     for word in reasoning.split():
@@ -107,8 +76,9 @@ def init_db():
     return db
 
 def main():
+    DATASET = os.getenv('DATASET')
     db = init_db()
-    data = pd.read_csv('streamlit/data.csv')
+    data = pd.read_csv(DATASET)
     data['genres'] = data['genres'].apply(ast.literal_eval)
 
     st.title('Movie Search App')
