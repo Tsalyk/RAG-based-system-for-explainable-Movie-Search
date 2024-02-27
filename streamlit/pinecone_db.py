@@ -1,16 +1,17 @@
 from pinecone import Pinecone, ServerlessSpec
 from sentence_transformers import SentenceTransformer, util
-
 from tqdm import tqdm
+
 tqdm.pandas()
 
+import ast
 import uuid
+import warnings
+
 from langchain.text_splitter import CharacterTextSplitter
 
-import ast
-
-import warnings
 warnings.filterwarnings('ignore')
+import os
 
 
 class VectorDB:
@@ -137,7 +138,6 @@ class VectorDB:
 
 
 if __name__ == '__main__':
-    PINECONE_KEY = "75911628-63ad-41be-b7cd-b294b07057ed"
-
+    PINECONE_KEY = os.getenv('PINECONE_API_KEY')
     db = VectorDB(PINECONE_KEY)
     db.set_index()

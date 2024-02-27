@@ -1,17 +1,16 @@
-import streamlit as st
-import pandas as pd
-import numpy as np
-
 import ast
 import os
+import time
 
-from dotenv import load_dotenv
-
-from pinecone import Pinecone
-from sentence_transformers import SentenceTransformer
-from pinecone_db import *
-
+import numpy as np
+import pandas as pd
 import requests
+from dotenv import load_dotenv
+from pinecone import Pinecone
+from pinecone_db import *
+from sentence_transformers import SentenceTransformer
+
+import streamlit as st
 
 load_dotenv()
 
@@ -66,6 +65,11 @@ def generate_reasoning(title: str, description: str, query: str):
     except Exception as e:
         return {"error": f"An error occurred: {str(e)}"}
 
+def stream_reasoning(reasoning: str):
+    for word in reasoning.split():
+        yield word + " "
+        time.sleep(0.02)
+
 def display_movies(movies, query, metadata, batch_size=2):
     batch_n = st.session_state.get('batch', 0)
     num_batches = len(movies) // batch_size
@@ -85,7 +89,8 @@ def display_movies(movies, query, metadata, batch_size=2):
             st.write(f"**Genre:** {', '.join(movie['genres'])}")
             st.write(f"**Year:** {movie['year']}")
             st.write(f"**Description:** {movie['description']}...")
-            st.write(f"**Reasoning:** {reasoning['generated_text']}")
+            st.write(f"**🤖AI Reasoning**")
+            st.write_stream(stream_reasoning(reasoning['generated_text']))
             st.write(f"**Extracted metadata:** {metadata}")
             st.write("---")
 
