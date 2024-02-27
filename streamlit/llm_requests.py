@@ -3,7 +3,7 @@ import os
 
 
 def extract_metadata(query: str):
-    url = os.getenv('METADATA_API')
+    url = f"{os.getenv('LLM_API')}/extract_metadata"
     body = {
         "query": query,
         "parameters": {}
@@ -18,7 +18,7 @@ def extract_metadata(query: str):
         return {"error": f"An error occurred: {str(e)}"}
 
 def generate_reasoning(title: str, description: str, query: str):
-    url = os.getenv('REASONING_API')
+    url = f"{os.getenv('LLM_API')}/generate_reasoning"
     body = {
         "title": title,
         "query": query,
