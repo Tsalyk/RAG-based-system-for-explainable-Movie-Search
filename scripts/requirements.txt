@@ -1,0 +1,6 @@
+pandas
+numpy
+pwiki
+wikipedia
+wikipedia-api
+tqdm

@@ -1,0 +1,9 @@
+FROM python:latest
+
+COPY ./llm_api.py ./.env ./requirements.txt /opt/app/
+
+RUN pip install -r /opt/app/requirements.txt
+
+EXPOSE 8085
+
+CMD ["uvicorn", "opt.app.llm_api:app", "--host", "0.0.0.0", "--port", "8085"]
