@@ -1,4 +1,4 @@
-FROM python:latest
+FROM python:3.11-slim
 
 COPY ./*.py ./data.csv ./.env ./requirements.txt /opt/app/
 
