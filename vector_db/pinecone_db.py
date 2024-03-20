@@ -44,6 +44,7 @@ class VectorDB:
         self.index = self.get_movies_index()
 
     def upsert_movie(self, title: str, genres: list, year: int, description: str):
+        MAX_RETRIES = 10
         year = int(year)
         descriptions = self.chunk_description(description)
 
@@ -56,18 +57,20 @@ class VectorDB:
         metadata = metadata | genres
         movie_id = str(uuid.uuid4())
 
+        retries = 0
         for description in descriptions:
             record_id = str(uuid.uuid4())
             embeddings = self.get_embedding(description)
             upserted = False
-            while not upserted:
+            while not upserted and retries < MAX_RETRIES:
                 try:
                     self.index.upsert([(record_id, embeddings, metadata |
                                         {'description': description,
                                          'movie_id': movie_id})])
                     upserted = True
+                    retries = 0
                 except Exception:
-                    pass
+                    retries += 1
 
     def search_movies(
             self, query: str,
