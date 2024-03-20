@@ -2,13 +2,13 @@ import os
 from typing import Any
 
 import uvicorn
+import requests
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 load_dotenv()
 
-import requests
 
 METADATA_TEMPLATE = """
 SYSTEM: You are an AI movie search assistant that extracts key
