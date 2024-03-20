@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from api_requests import extract_metadata, generate_reasoning
 from dotenv import load_dotenv
-from streamlit_utils import streamlit_search_movies
+from utils import streamlit_search_movies
 
 import streamlit as st
 
