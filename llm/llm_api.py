@@ -5,8 +5,8 @@ import uvicorn
 import requests
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
-from api_schema import MetadataInput, ReasoningInput
-from prompt_templates import *
+from schema import MetadataInput, ReasoningInput
+from prompt_templates import METADATA_TEMPLATE, REASONING_TEMPLATE
 
 load_dotenv()
 
