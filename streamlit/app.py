@@ -4,40 +4,22 @@ import time
 
 import numpy as np
 import pandas as pd
-import requests
+from api_requests import extract_metadata, generate_reasoning
 from dotenv import load_dotenv
-from llm_requests import *
-from pinecone import Pinecone
-from pinecone_db import *
-from sentence_transformers import SentenceTransformer
+from utils import streamlit_search_movies
 
 import streamlit as st
 
 load_dotenv()
 
 
-def search_movies(db, query: str, metadata: pd.DataFrame, data: pd.DataFrame, k=10, min_similarity_score=0) -> pd.DataFrame:
-    result = db.search_movies(query, metadata, k=k, min_similarity_score=min_similarity_score)
-    titles = np.unique([movie['title'] for movie in result])
-    titles, descriptions = [], []
-    for movie in result:
-        title, description = movie['title'], movie['description']
-        if title not in titles:
-            titles.append(title)
-            descriptions.append(description)
+@st.cache_data
+def load_data():
+    DATASET = os.getenv('DATASET')
+    df = pd.read_csv(DATASET)
+    df['genres'] = df['genres'].apply(ast.literal_eval)
+    return df
 
-    data = data[data['title'].isin(titles)]
-    data['rag_description'] = None
-
-    for title, description in zip(titles, descriptions):
-        data.loc[data['title'] == title, 'rag_description'] = description
-
-    return data
-
-def stream_reasoning(reasoning: str):
-    for word in reasoning.split():
-        yield word + " "
-        time.sleep(0.02)
 
 def display_movies(movies, query, metadata, batch_size=2):
     batch_n = st.session_state.get('batch', 0)
@@ -48,19 +30,18 @@ def display_movies(movies, query, metadata, batch_size=2):
 
         for _, movie in batch.iterrows():
             rag_description = movie['rag_description']
-            reasoning = generate_reasoning(movie['title'], rag_description, query)
+            reasoning = generate_reasoning(
+                movie['title'], rag_description, query)
 
-            if 'generated_text' not in reasoning:
-                print(movie['description'])
-                print(reasoning)
+            if 'generated_response' not in reasoning:
+                reasoning = {'generated_response': None}
 
             st.write(f"**Title:** {movie['title']}")
             st.write(f"**Genre:** {', '.join(movie['genres'])}")
             st.write(f"**Year:** {movie['year']}")
             st.write(f"**Description:** {movie['description']}...")
-            st.write(f"**🤖AI Reasoning**")
-            st.write_stream(stream_reasoning(reasoning['generated_text']))
-            st.write(f"**Extracted metadata:** {metadata}")
+            st.write("**🤖AI Reasoning**")
+            st.write_stream(reasoning['generated_response'])
             st.write("---")
 
         if st.button(f'Show More ({i+1}/{num_batches})', key=f"show_more_{i}"):
@@ -69,27 +50,20 @@ def display_movies(movies, query, metadata, batch_size=2):
         else:
             break
 
-def init_db():
-    PINECONE_KEY = os.getenv('PINECONE_API_KEY')
-    db = VectorDB(PINECONE_KEY)
-    db.set_index()
-    return db
 
 def main():
-    DATASET = os.getenv('DATASET')
-    db = init_db()
-    data = pd.read_csv(DATASET)
-    data['genres'] = data['genres'].apply(ast.literal_eval)
+    data = load_data()
 
     st.title('Movie Search App')
     st.session_state.setdefault('batch', 0)
 
     search_query = st.text_input('Enter movie title, genre, or description:')
 
-    movies, metadata = [], {}
+    movies, metadata = [], {'generated_response': ''}
     if search_query:
         metadata = extract_metadata(search_query)
-        movies = search_movies(db, search_query, {}, data)
+        metadata = ast.literal_eval(metadata['generated_response'])
+        movies = streamlit_search_movies(search_query, metadata, data)
     # movies = db.search_movies(search_query, {})
 
     if len(movies) > 0:
