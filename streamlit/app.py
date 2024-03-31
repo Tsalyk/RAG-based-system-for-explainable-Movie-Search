@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from api_requests import extract_metadata, generate_reasoning
 from dotenv import load_dotenv
-from streamlit_utils import streamlit_search_movies
+from utils import streamlit_search_movies
 
 import streamlit as st
 
@@ -21,12 +21,6 @@ def load_data():
     return df
 
 
-def stream_reasoning(reasoning: str):
-    for word in reasoning.split():
-        yield word + " "
-        time.sleep(0.05)
-
-
 def display_movies(movies, query, metadata, batch_size=2):
     batch_n = st.session_state.get('batch', 0)
     num_batches = len(movies) // batch_size
@@ -38,18 +32,16 @@ def display_movies(movies, query, metadata, batch_size=2):
             rag_description = movie['rag_description']
             reasoning = generate_reasoning(
                 movie['title'], rag_description, query)
-            # reasoning = {'generated_response': 'reasoning'}
 
             if 'generated_response' not in reasoning:
-                print(movie['description'])
-                print(reasoning)
+                reasoning = {'generated_response': None}
 
             st.write(f"**Title:** {movie['title']}")
             st.write(f"**Genre:** {', '.join(movie['genres'])}")
             st.write(f"**Year:** {movie['year']}")
             st.write(f"**Description:** {movie['description']}...")
             st.write("**🤖AI Reasoning**")
-            st.write_stream(stream_reasoning(reasoning['generated_response']))
+            st.write_stream(reasoning['generated_response'])
             st.write("---")
 
         if st.button(f'Show More ({i+1}/{num_batches})', key=f"show_more_{i}"):

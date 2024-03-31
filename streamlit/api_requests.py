@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def extract_metadata(query: str):
+def extract_metadata(query: str) -> dict:
     url = f"{os.getenv('LLM_API')}/extract_metadata"
     body = {
         "query": query,
@@ -16,15 +16,14 @@ def extract_metadata(query: str):
         response = requests.post(url, json=body)
         if response.status_code == 200:
             return response.json()
-        else:
-            return {"error":
-                    f"Request failed with status code {response.status_code}\nAPI URL: {url}"
-                    }
+        return {"error":
+                f"Request failed with status code {response.status_code}\nAPI URL: {url}"
+                }
     except Exception as e:
         return {"error": f"An error occurred: {str(e)}"}
 
 
-def generate_reasoning(title: str, description: str, query: str):
+def generate_reasoning(title: str, description: str, query: str) -> dict:
     url = f"{os.getenv('LLM_API')}/generate_reasoning"
     body = {
         "title": title,
@@ -36,10 +35,9 @@ def generate_reasoning(title: str, description: str, query: str):
         response = requests.post(url, json=body)
         if response.status_code == 200:
             return response.json()
-        else:
-            return {"error":
-                    f"Request failed with status code {response.status_code}"
-                    }
+        return {"error":
+                f"Request failed with status code {response.status_code}"
+                }
     except Exception as e:
         return {"error": f"An error occurred: {str(e)}"}
 
@@ -48,7 +46,7 @@ def search_movies(
         query: str,
         metadata: dict,
         k: int,
-        min_similarity_score: float):
+        min_similarity_score: float) -> dict:
     url = f"{os.getenv('DB_API')}/search_movies"
     body = {
         "query": query,
@@ -60,10 +58,9 @@ def search_movies(
         response = requests.post(url, json=body)
         if response.status_code == 200:
             return response.json()
-        else:
-            return {"error":
-                    f"Request failed with status code {response.status_code}"
-                    }
+        return {"error":
+                f"Request failed with status code {response.status_code}"
+                }
     except Exception as e:
         return {"error": f"An error occurred: {str(e)}"}
 

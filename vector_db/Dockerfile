@@ -1,4 +1,4 @@
-FROM python:latest
+FROM python:3.11-slim
 
 COPY ./*.py ./pinecone_db.py ./genres.txt ./.env ./requirements.txt /opt/app/
 
