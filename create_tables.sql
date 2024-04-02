@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS fixed_size_splitter_all_MiniLM_L6_v2 (
     title TEXT,
     year INTEGER,
     genres genre_type ARRAY,
+    description TEXT,
     feature_vector VECTOR(384)
 );
 
@@ -60,6 +61,7 @@ CREATE TABLE IF NOT EXISTS fixed_size_splitter_gtr_t5_base (
     title TEXT,
     year INTEGER,
     feature_vector VECTOR(768),
+    description TEXT,
     genres genre_type ARRAY
 );
 
@@ -68,6 +70,7 @@ CREATE TABLE IF NOT EXISTS fixed_size_splitter_bert_base_nli_mean_tokens (
     title TEXT,
     year INTEGER,
     genres genre_type ARRAY,
+    description TEXT,
     feature_vector VECTOR(768)
 );
 
@@ -76,6 +79,7 @@ CREATE TABLE IF NOT EXISTS recursive_splitter_all_MiniLM_L6_v2 (
     title TEXT,
     year INTEGER,
     genres genre_type ARRAY,
+    description TEXT,
     feature_vector VECTOR(384)
 );
 
@@ -83,8 +87,9 @@ CREATE TABLE IF NOT EXISTS recursive_splitter_gtr_t5_base (
     id SERIAL PRIMARY KEY,
     title TEXT,
     year INTEGER,
-    feature_vector VECTOR(768),
-    genres genre_type ARRAY
+    genres genre_type ARRAY,
+    description TEXT,
+    feature_vector VECTOR(768)
 );
 
 CREATE TABLE IF NOT EXISTS recursive_splitter_bert_base_nli_mean_tokens (
@@ -92,6 +97,7 @@ CREATE TABLE IF NOT EXISTS recursive_splitter_bert_base_nli_mean_tokens (
     title TEXT,
     year INTEGER,
     genres genre_type ARRAY,
+    description TEXT,
     feature_vector VECTOR(768)
 );
 
@@ -100,6 +106,7 @@ CREATE TABLE IF NOT EXISTS semantic_splitter_all_MiniLM_L6_v2 (
     title TEXT,
     year INTEGER,
     genres genre_type ARRAY,
+    description TEXT,
     feature_vector VECTOR(384)
 );
 
@@ -107,8 +114,9 @@ CREATE TABLE IF NOT EXISTS semantic_splitter_gtr_t5_base (
     id SERIAL PRIMARY KEY,
     title TEXT,
     year INTEGER,
-    feature_vector VECTOR(768),
-    genres genre_type ARRAY
+    genres genre_type ARRAY,
+    description TEXT,
+    feature_vector VECTOR(768)
 );
 
 CREATE TABLE IF NOT EXISTS semantic_splitter_bert_base_nli_mean_tokens (
@@ -116,5 +124,6 @@ CREATE TABLE IF NOT EXISTS semantic_splitter_bert_base_nli_mean_tokens (
     title TEXT,
     year INTEGER,
     genres genre_type ARRAY,
+    description TEXT,
     feature_vector VECTOR(768)
 );

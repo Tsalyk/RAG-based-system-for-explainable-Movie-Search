@@ -45,5 +45,15 @@ services:
     networks:
       - ai-network
 
+  pgvector-api:
+    container_name: pgvector-api
+    build: ./pg_vector_api
+    ports:
+      - 8080:8080
+    volumes:
+      - ./pg_vector_api:/app
+    networks:
+    - ai-network
+
 networks:
     ai-network:
