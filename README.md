@@ -6,22 +6,31 @@
 * [Paper](https://www.overleaf.com/5328894874bzgyjztmzxbb#f507a1)
 ***
 
-## Problem statement
-The capacity to rapidly and reliably find information on a certain area is critical for people in the broad landscape of digital content. The huge variety of content that is available to us overwhelms, making it difficult to identify novel material that suits our interests. Conventional search engines can deliver results based on popularity or broad relevancy, but they frequently can't recognise and accommodate personal preferences, which leads in less than ideal user experiences.
+## Launch instructions
+1. First clone the repository using ```git clone https://github.com/Tsalyk/RAG-based-system-for-explainable-Movie-Search.git``` command
+2. Navigate to the clonned repository and create .env files in the following services:
+   * llm
+   * pg_vector_api
+   * streamlit
+3. Launch [Docker](https://www.docker.com/)
+4. Build docker containers with a command ```docker-compose up -d``` (approximately ~15 minutes)
+5. Expose LLM server running [Google Colab notebook](https://colab.research.google.com/drive/1KZYaEtJDWsxzc9N3CWEIbcaVu2ipGgzG?usp=sharing) (select GPU in resources tab, approximately ~10 minutes)
+6. Navigate http://localhost:8501/ and have fun testing out the application
 ***
 
-## Description
-The Domain-Specific AI Assistant for Movie Search will be designed as an intelligent system capable of interpreting natural language queries related to movie preferences and returning highly ranked results tailored to the user's taste. The system will employ Large Language Model, vector embeddings, and vector databases to analyze vast datasets of movie information, including user reviews, ratings, genres, cast and crew details, and historical viewing patterns. The project's core functionality involves processing user prompts in natural language and returning ranked results based on the semantic understanding of both the query and the available movie database.
-
-The project will involve the development of a robust backend that integrates with a user-friendly front-end interface with Streamlit. Users will interact with the AI assistant through a conversational interface where they can input queries such as "Recommend me sci-fi movies with strong female leads" or "Find action-comedy films released in the last year." The AI assistant will then process these queries, extract relevant information, and utilize sophisticated semantic search results to present a personalized list of movie recommendations.
-***
-
-## Objectives
-A Domain-Specific AI Assistant for Movie Search seeks to transform how consumers find and view movies in order to solve the problem at hand. This project intends to harness artificial intelligence to enhance the search experience by giving personalised and contextually relevant movie suggestions. The AI assistant uses powerful natural language processing algorithms, historical watching trends, and user choices to give a sorted list of recommended films that are tailored to each user's individual interests and preferences.
-
-The project's success will be measured not only by the accuracy of its recommendations but also by its ability to adapt to evolving user preferences and deliver an engaging and intuitive movie discovery experience. Ultimately, the Domain-Specific AI Assistant for Movie Search aims to simplify and enhance the movie-watching journey for users, offering a novel approach to personalized content discovery in the digital age.
-
-Functionality of developed AI Assistant might be extended on wider range of use-cases in the future.
+## Overview
+Usual key-words search engines can deliver results
+based on popularity or broad relevancy, but they frequently can’t recognise and ac-
+commodate personal preferences or query context, which leads to poor user expe-
+riences. However, it is not enough just to provide semantically meaningful results
+for the users, since they might not catch the reason why these movies are relevant.
+By incorporating explainability into our movie search system, we aim to bridge the
+gap between users’ search queries and the search results provided. Through trans-
+parent reasoning for each movie suggestion, users gain valuable insights into the
+decision-making process of the system. This not only fosters trust in the search en-
+gine, but also empowers users to make more informed decisions about the movies
+they choose to watch. Furthermore, explainability enables users to refine their search
+criteria, leading to more personalized and tailored suggestions over time
 ***
 
 ## Diagram

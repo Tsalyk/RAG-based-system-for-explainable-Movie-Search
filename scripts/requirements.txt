@@ -1,6 +1,10 @@
 pandas
 numpy
 pwiki
+langchain==0.1.13
+langchain-core==0.1.36
+langchain-experimental==0.0.55
+sentence_transformers==2.2.2
 wikipedia
 wikipedia-api
 tqdm

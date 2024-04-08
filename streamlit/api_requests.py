@@ -43,12 +43,16 @@ def generate_reasoning(title: str, description: str, query: str) -> dict:
 
 
 def search_movies(
+        chunking_strategy: str,
+        embedding_model: str,
         query: str,
         metadata: dict,
         k: int,
         min_similarity_score: float) -> dict:
     url = f"{os.getenv('DB_API')}/search_movies"
     body = {
+        "chunking_strategy": chunking_strategy,
+        "embedding_model": embedding_model,
         "query": query,
         "metadata": metadata,
         "k": k,

@@ -20,13 +20,38 @@ services:
     networks:
     - ai-network
 
-  db:
-    container_name: database
-    build: ./vector_db
+  # PINECONE DB
+  # db:
+  #   container_name: database
+  #   build: ./vector_db
+  #   ports:
+  #     - 8080:8080
+  #   volumes:
+  #     - ./vector_db:/app
+  #   networks:
+  #   - ai-network
+
+  pgvector:
+    container_name: pgvector
+    image: ankane/pgvector
+    volumes:
+      - ./create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_HOST_AUTH_METHOD: trust
+    networks:
+      - ai-network
+
+  pgvector-api:
+    container_name: pgvector-api
+    build: ./pg_vector_api
     ports:
       - 8080:8080
     volumes:
-      - ./vector_db:/app
+      - ./pg_vector_api:/app
     networks:
     - ai-network
 

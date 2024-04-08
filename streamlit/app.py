@@ -4,11 +4,11 @@ import time
 
 import numpy as np
 import pandas as pd
-from api_requests import extract_metadata, generate_reasoning
 from dotenv import load_dotenv
-from utils import streamlit_search_movies
 
 import streamlit as st
+from api_requests import extract_metadata, generate_reasoning
+from utils import streamlit_search_movies
 
 load_dotenv()
 
@@ -41,7 +41,7 @@ def display_movies(movies, query, metadata, batch_size=2):
             st.write(f"**Year:** {movie['year']}")
             st.write(f"**Description:** {movie['description']}...")
             st.write("**🤖AI Reasoning**")
-            st.write_stream(reasoning['generated_response'])
+            st.write(reasoning['generated_response'])
             st.write("---")
 
         if st.button(f'Show More ({i+1}/{num_batches})', key=f"show_more_{i}"):
@@ -54,6 +54,23 @@ def display_movies(movies, query, metadata, batch_size=2):
 def main():
     data = load_data()
 
+    chunking_strategy = st.sidebar.selectbox(
+                                            'Select Chunking strategy',
+                                            [
+                                                'fixed-size-splitter',
+                                                'recursive-splitter',
+                                                'semantic-splitter'
+                                                ]
+                                                )
+    embedding_model = st.sidebar.selectbox(
+                                            'Select Embedding model',
+                                            [
+                                                'all-MiniLM-L6-v2',
+                                                'bert-base-nli-mean-tokens',
+                                                'gtr-t5-base'
+                                                ]
+                                                )
+
     st.title('Movie Search App')
     st.session_state.setdefault('batch', 0)
 
@@ -63,8 +80,9 @@ def main():
     if search_query:
         metadata = extract_metadata(search_query)
         metadata = ast.literal_eval(metadata['generated_response'])
-        movies = streamlit_search_movies(search_query, metadata, data)
-    # movies = db.search_movies(search_query, {})
+        movies = streamlit_search_movies(
+            chunking_strategy, embedding_model, search_query, metadata, data
+            )
 
     if len(movies) > 0:
         display_movies(movies, search_query, metadata)
