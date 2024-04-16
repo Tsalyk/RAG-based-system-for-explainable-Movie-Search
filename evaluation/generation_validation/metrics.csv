@@ -1,0 +1,10 @@
+Chunking Strategy + Embedding model + LLM,Groundedness,Answer Relevance,Context Relevance,latency
+fixed-size-splitter + all-MiniLM-L6-v2 + LLaMA-13B,0.3478,0.8391,0.5663,29.0
+fixed-size-splitter + all-MiniLM-L6-v2 + Mistral-7B,0.3953,0.8614,0.5673,27.495
+fixed-size-splitter + all-MiniLM-L6-v2 + OpenHermes-7B,0.3425,0.8694,0.5735,28.0612
+recursive-splitter + gtr-t5-base + LLaMA-13B,0.3664,0.866,0.589,27.66
+recursive-splitter + gtr-t5-base + Mistral-7B,0.4094,0.8636,0.5828,27.495
+recursive-splitter + gtr-t5-base + OpenHermes-7B,0.4397,0.868,0.591,27.66
+semantic-splitter + all-MiniLM-L6-v2 + LLaMA-13B,0.3364,0.8296,0.5929,28.0612
+semantic-splitter + all-MiniLM-L6-v2 + Mistral-7B,0.3938,0.8398,0.5622,28.0612
+semantic-splitter + all-MiniLM-L6-v2 + OpenHermes-7B,0.4035,0.8551,0.5724,28.0612
