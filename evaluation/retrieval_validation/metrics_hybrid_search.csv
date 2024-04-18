@@ -1,0 +1,10 @@
+Chunking Strategy + Embedding model,Precision@K,HitRate,NDCG,MRR
+fixed-size-splitter + all-MiniLM-L6-v2,0.4337,0.91,0.4813,0.7907
+fixed-size-splitter + bert-base-nli-mean-tokens,0.3979,0.86,0.4392,0.7095
+fixed-size-splitter + gtr-t5-base,0.3863,0.91,0.441,0.7893
+recursive-splitter + all-MiniLM-L6-v2,0.3919,0.86,0.4401,0.7655
+recursive-splitter + bert-base-nli-mean-tokens,0.3964,0.91,0.4407,0.7345
+recursive-splitter + gtr-t5-base,0.412,0.94,0.456,0.7756
+semantic-splitter + all-MiniLM-L6-v2,0.4293,0.91,0.4679,0.7532
+semantic-splitter + bert-base-nli-mean-tokens,0.4177,0.91,0.4568,0.734
+semantic-splitter + gtr-t5-base,0.4132,0.91,0.4589,0.7739

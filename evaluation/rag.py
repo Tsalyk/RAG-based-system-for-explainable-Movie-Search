@@ -1,34 +1,43 @@
 import ast
 
-from llm_requests import extract_metadata, generate_reasoning
-from pinecone_db import VectorDB
+import pandas as pd
+from llm_requests import extract_metadata, generate_reasoning, search_movies
 from trulens_eval.tru_custom_app import instrument
 
 
 class RAG:
-    def __init__(self, db: VectorDB) -> None:
-        self.db = db
+    def __init__(self, chunking_strategy: str, embedding_model: str) -> None:
+        self.chunking_strategy = chunking_strategy
+        self.embedding_model = embedding_model
 
     @instrument
     def retrieve(self, query: str) -> str:
         """
         Retrieve relevant context from vector store.
         """
-        metadata = extract_metadata(query)['generated_text']
-        metadata = metadata.replace('{{', '{').replace('}}', '}')
-        start = metadata.find('{')
-        end = metadata.find('}')
-        metadata = metadata[start:end+1].strip()
-        metadata = ast.literal_eval(metadata)
+        metadata = extract_metadata(query)
+        metadata = ast.literal_eval(metadata['generated_response'])
 
-        retrieved = self.db.search_movies(
-            query,
-            metadata,
-            k=1, min_similarity_score=0)
+        retrieved = search_movies(
+            chunking_strategy=self.chunking_strategy,
+            embedding_model=self.embedding_model,
+            query=query,
+            metadata=metadata,
+            k=1,
+            min_similarity_score=0
+            )['search_results']
+
+        if len(retrieved) == 0:
+            retrieved = search_movies(
+                chunking_strategy=self.chunking_strategy,
+                embedding_model=self.embedding_model,
+                query=query,
+                metadata={},
+                k=1,
+                min_similarity_score=0
+                )['search_results']
+
         title, context = retrieved[0]['title'], retrieved[0]['description']
-
-        self.db.search_movies(query, metadata, k=1)
-
         context = f'{title}\n' + context
         return context
 
@@ -44,7 +53,7 @@ class RAG:
             description=context_str,
             query=query
         )
-        return reasoning['generated_text']
+        return reasoning['generated_response']
 
     @instrument
     def query(self, query: str) -> str:

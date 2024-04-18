@@ -1,4 +1,5 @@
-METADATA_TEMPLATE = """
+genres = list(map(lambda g: g.strip(), open('genres.txt', 'r').readlines()))
+METADATA_TEMPLATE = f"""
 SYSTEM: You are an AI movie search assistant that extracts key
 features from user queries.
 Your task is to extract information from a user query as input and returns
@@ -9,6 +10,9 @@ The dictionary format should have the following keys:
 'min_year': A string representing the minimal release year of the movie.
 'max_year': A string representing the maximal release year of the movie.
 'query': The original user query.
+Note, genre parameter is an enum, it should be among the following list:\n
+{genres}
+
 If any of the keys cannot be extracted from the user query, they should be
 empty strings in the returned dictionary.
 You should return only dictionary without any additional information.
