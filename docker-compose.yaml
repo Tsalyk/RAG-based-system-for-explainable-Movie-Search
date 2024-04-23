@@ -5,6 +5,9 @@ services:
     build: ./llm
     ports:
       - 8085:8085
+    environment:
+      - API_PORT=8085
+      - LLM_API=https://randomly-excited-gnat.ngrok-free.app
     volumes:
       - ./llm:/opt/app
     networks:
@@ -15,21 +18,16 @@ services:
     build: ./streamlit
     ports:
       - 8501:8501
+    environment:
+      - PINECONE_API_KEY=75911628-63ad-41be-b7cd-b294b07057ed
+      - DATASET=/opt/app/data.csv
+      - LLM_API=http://llm_api:8085
+      - DB_API=http://pgvector-api:8080
+      - TRANSLATOR=http://translator-api:8090
     volumes:
       - ./streamlit:/app
     networks:
     - ai-network
-
-  # PINECONE DB
-  # db:
-  #   container_name: database
-  #   build: ./vector_db
-  #   ports:
-  #     - 8080:8080
-  #   volumes:
-  #     - ./vector_db:/app
-  #   networks:
-  #   - ai-network
 
   pgvector:
     container_name: pgvector
@@ -50,8 +48,22 @@ services:
     build: ./pg_vector_api
     ports:
       - 8080:8080
+    environment:
+      - HOST=pgvector
+      - USER=admin
+      - PASSWORD=admin
     volumes:
       - ./pg_vector_api:/app
+    networks:
+    - ai-network
+
+  translator-api:
+    container_name: translator-api
+    build: ./translator
+    ports:
+      - 8090:8090
+    volumes:
+      - ./translator:/app
     networks:
     - ai-network
 

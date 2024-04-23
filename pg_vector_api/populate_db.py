@@ -88,6 +88,15 @@ def delete_content(conn, table_name: str):
     cur.close()
 
 
+def count_rows(conn, table_name: str) -> int:
+    sql = f"SELECT COUNT(*) FROM {table_name}"
+    cur = conn.cursor()
+    cur.execute(sql)
+    row_count = cur.fetchone()[0]
+    cur.close()
+    return row_count
+
+
 def populate_all():
     conn = init_db()
 
@@ -95,8 +104,10 @@ def populate_all():
         for embedding_model in EMBEDDING_MODELS:
             embeddings_df = load_data(chunking_strategy, embedding_model)
             table_name = f"{chunking_strategy.lower().replace('-', '_')}_{embedding_model.lower().replace('-', '_')}"
-            delete_content(conn, table_name)
-            populate_df(conn, table_name, embeddings_df)
+            n = count_rows(conn, table_name)
+            if n < 10:
+                delete_content(conn, table_name)
+                populate_df(conn, table_name, embeddings_df)
 
 
 if __name__ == '__main__':

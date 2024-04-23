@@ -9,7 +9,6 @@ def streamlit_search_movies(
         embedding_model: str,
         query: str,
         metadata: dict,
-        data: pd.DataFrame,
         k=10, min_similarity_score=0) -> pd.DataFrame:
 
     result = search_movies(
@@ -21,18 +20,33 @@ def streamlit_search_movies(
         min_similarity_score=min_similarity_score)
     result = result['search_results']
 
-    titles = np.unique([movie['title'] for movie in result])
-    titles, descriptions = [], []
+    data = pd.DataFrame(columns=['title', 'year', 'genres', 'rag_description'])
     for movie in result:
-        title, description = movie['title'], movie['description']
-        if title not in titles:
-            titles.append(title)
-            descriptions.append(description)
+        title, genres, year, description = movie['title'], movie['genres'], movie['year'], movie['description']
+        genres = genres.replace('{', '').replace('}', '')
+        if len(genres) == 0:
+            genres = 'None'
+        else:
+            genres = ', '.join(genres.split(','))
 
-    data = data[data['title'].isin(titles)]
-    data['rag_description'] = None
+        new_row = pd.DataFrame({
+                'title': [title],
+                'year': [year],
+                'genres': [genres],
+                'rag_description': [description]
+            })
 
-    for title, description in zip(titles, descriptions):
-        data.loc[data['title'] == title, 'rag_description'] = description
+        if len(data) == 0:
+            data = new_row
+        else:
+            data = pd.concat([data, new_row])
+
+    data = data.drop_duplicates(subset=['title'])
 
     return data
+
+
+def remove_emojis(text: str) -> str:
+    for emoji in ['🇬🇧', '🇺🇦', '🇪🇸', '🇫🇷', '🇩🇪', '🇮🇹']:
+        text = text.replace(emoji, '')
+    return text
