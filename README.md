@@ -1,4 +1,4 @@
-# DomainSpecificAIAssistant
+# RAG-based-system-for-explainable-Movie-Search
 
 ## Hyperlinks
 * [Meetings notes](https://docs.google.com/document/d/13XV529CzxseJ4wfdnEoQAKRNz8hCcIXpr1cMPGujlcE/edit?usp=sharing)
