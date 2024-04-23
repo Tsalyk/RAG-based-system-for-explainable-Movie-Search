@@ -42,7 +42,10 @@ class VectorDB:
         else:
             max_year = 2015
         genre = metadata.get('genre', '')
-        genre = genre if len(genre) > 0 else None
+        if isinstance(genre, list) and len(genre) > 0:
+            genre = genre[0]
+        elif len(str(genre)) == 0:
+            genre = None
         filters = "WHERE 1 = 1"
         filters += f" AND year >= {min_year}"
         filters += f" AND year <= {max_year}"

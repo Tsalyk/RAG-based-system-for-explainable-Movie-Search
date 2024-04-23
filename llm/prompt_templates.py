@@ -10,7 +10,8 @@ The dictionary format should have the following keys:
 'min_year': A string representing the minimal release year of the movie.
 'max_year': A string representing the maximal release year of the movie.
 'query': The original user query.
-Note, genre parameter is an enum, it should be among the following list:\n
+Note, genre parameter is an enum. In one query there can be only one genre.
+If there is multiple genres, select one main genre among them. It should be among the following list:\n
 {genres}
 
 If any of the keys cannot be extracted from the user query, they should be

@@ -6,8 +6,8 @@ import pandas as pd
 from dotenv import load_dotenv
 
 import streamlit as st
-from api_requests import extract_metadata, generate_reasoning
-from utils import streamlit_search_movies
+from api_requests import extract_metadata, generate_reasoning, translate
+from utils import streamlit_search_movies, remove_emojis
 
 load_dotenv()
 
@@ -20,34 +20,71 @@ def load_data():
     return df
 
 
-def display_movies(movies, query, metadata, batch_size=2):
-    batch_n = st.session_state.get('batch', 0)
-    num_batches = len(movies) // batch_size
+def display_movies(
+        movies: pd.DataFrame,
+        query: str,
+        language: str,
+        counter=0
+        ):
+    counter = st.session_state.get('counter', counter)
 
-    for i in range(batch_n, num_batches + 1):
-        batch = movies[i * batch_size:(i + 1) * batch_size]
+    prev_query = st.session_state.get('prev_query', '')
+    if query != prev_query:
+        st.session_state['counter'] = 0
+        counter = 0
 
-        for _, movie in batch.iterrows():
-            rag_description = movie['rag_description']
-            reasoning = generate_reasoning(
-                movie['title'], rag_description, query)
+    movie = movies.iloc[counter]
 
-            if 'generated_response' not in reasoning:
-                reasoning = {'generated_response': None}
+    rag_description = movie['rag_description']
 
-            st.write(f"**Title:** {movie['title']}")
-            st.write(f"**Genre:** {', '.join(movie['genres'])}")
-            st.write(f"**Year:** {movie['year']}")
-            st.write(f"**Description:** {movie['description']}...")
-            st.write("**🤖AI Reasoning**")
-            st.write(reasoning['generated_response'])
-            st.write("---")
+    title = translate(
+        text=movie['title'].split(',')[0],
+        src_lang="eng",
+        tgt_lang=remove_emojis(language)
+    )['translation']
 
-        if st.button(f'Show More ({i+1}/{num_batches})', key=f"show_more_{i}"):
-            st.session_state['batch'] += 1
-            continue
-        else:
-            break
+    genres = translate(
+        text=movie['genres'],
+        src_lang="eng",
+        tgt_lang=remove_emojis(language)
+    )['translation']
+
+    text = f"**Title:** {title}\n\n"
+    text += f"**Genre:** {genres}\n\n"
+    text += f"**Year:** {movie['year']}\n\n"
+
+    st.write(text)
+
+    with st.spinner('Generating reasoning...'):
+        reasoning = generate_reasoning(
+            movie['title'], rag_description, query
+            )
+        if 'generated_response' not in reasoning:
+            reasoning = {'generated_response': None}
+
+        text = "**🤖AI Reasoning**\n\n"
+        reasoning = translate(
+            text=reasoning['generated_response'],
+            src_lang="en",
+            tgt_lang=remove_emojis(language)
+        )['translation']
+        text += reasoning
+
+        found_text = "Movie is found!"
+        found_text = translate(
+            text=found_text,
+            src_lang="eng",
+            tgt_lang=remove_emojis(language)
+        )['translation']
+        st.success(found_text)
+
+        st.write(text)
+        st.write("---")
+
+    if st.button(f'Show More ({counter+1}/{len(movies)})', key=f"show_more_{counter}"):
+        st.session_state['counter'] = counter+1
+        st.session_state['prev_query'] = query
+        display_movies(movies, query, language)
 
 
 def main():
@@ -69,22 +106,42 @@ def main():
                                                 'gtr-t5-base'
                                                 ]
                                                 )
+    language = st.sidebar.selectbox(
+                                            'Select Language',
+                                            [
+                                                '🇬🇧en',
+                                                '🇺🇦uk',
+                                                '🇪🇸es',
+                                                '🇫🇷fr',
+                                                '🇩🇪de',
+                                                '🇮🇹it'
+                                                ]
+                                                )
 
     st.title('Movie Search App')
-    st.session_state.setdefault('batch', 0)
+    st.session_state.setdefault('counter', 0)
+    st.session_state.setdefault('prev_query', '')
 
     search_query = st.text_input('Enter movie title, genre, or description:')
+    search_query = translate(
+        text=search_query,
+        src_lang=remove_emojis(language),
+        tgt_lang="en"
+    )['translation']
 
     movies, metadata = [], {'generated_response': ''}
     if search_query:
         metadata = extract_metadata(search_query)
-        metadata = ast.literal_eval(metadata['generated_response'])
+        try:
+            metadata = ast.literal_eval(metadata['generated_response'])
+        except Exception:
+            metadata = {}
         movies = streamlit_search_movies(
-            chunking_strategy, embedding_model, search_query, metadata, data
+            chunking_strategy, embedding_model, search_query, metadata
             )
 
     if len(movies) > 0:
-        display_movies(movies, search_query, metadata)
+        display_movies(movies, search_query, language)
     else:
         st.write('Try to search for some movies with description')
 
