@@ -8,14 +8,12 @@
 
 ## Launch instructions
 1. First clone the repository using ```git clone https://github.com/Tsalyk/RAG-based-system-for-explainable-Movie-Search.git``` command
-2. Navigate to the clonned repository and create .env files in the following services:
-   * llm
-   * pg_vector_api
-   * streamlit
-3. Launch [Docker](https://www.docker.com/)
-4. Build docker containers with a command ```docker-compose up -d``` (approximately ~15 minutes)
-5. Expose LLM server running [Google Colab notebook](https://colab.research.google.com/drive/1KZYaEtJDWsxzc9N3CWEIbcaVu2ipGgzG?usp=sharing) (select GPU in resources tab, approximately ~10 minutes)
-6. Navigate http://localhost:8501/ and have fun testing out the application
+2. Launch [Docker](https://www.docker.com/)
+3. Build docker containers with a command ```docker-compose up -d``` (approximately ~15 minutes)
+4. Expose LLM server running [Google Colab notebook](https://colab.research.google.com/drive/1KZYaEtJDWsxzc9N3CWEIbcaVu2ipGgzG?usp=sharing) (select GPU in resources tab, approximately ~10 minutes)
+5. Navigate http://localhost:8501/ and have fun testing out the application
+
+```Note: steps 3 and 4 could be performed in parallel, you do not need to wait untill step 3 is finished```
 ***
 
 ## Overview
