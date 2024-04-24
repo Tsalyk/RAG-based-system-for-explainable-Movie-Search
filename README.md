@@ -19,8 +19,10 @@ docker-compose up -d
 ```
 in the root of navigated directory (approximately ~15 minutes)
 
-5. Expose LLM server running [Google Colab notebook](https://colab.research.google.com/drive/1KZYaEtJDWsxzc9N3CWEIbcaVu2ipGgzG?usp=sharing) (select GPU in resources tab, approximately ~10 minutes)
-6. Navigate http://localhost:8501/ and have fun testing out the application
+5. Expose LLM server running [Google Colab notebook](https://colab.research.google.com/drive/1KZYaEtJDWsxzc9N3CWEIbcaVu2ipGgzG?usp=sharing)
+   * select GPU in resources tab
+   * push Run All button (approximately ~10 minutes)
+7. Navigate http://localhost:8501/ and have fun testing out the application
 
 ```Note: steps 4 and 5 could be performed in parallel, you do not need to wait untill step 3 is finished```
 ***
