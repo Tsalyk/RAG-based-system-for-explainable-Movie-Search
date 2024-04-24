@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-COPY ./*.py ./.env ./requirements.txt /opt/app/
+COPY ./*.py ./requirements.txt /opt/app/
 
 RUN pip install -r /opt/app/requirements.txt
 

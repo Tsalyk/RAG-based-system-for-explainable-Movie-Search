@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-COPY ./*.py ./pinecone_db.py ./genres.txt ./.env ./requirements.txt /opt/app/
+COPY ./*.py ./pinecone_db.py ./genres.txt ./requirements.txt /opt/app/
 
 RUN pip install -r /opt/app/requirements.txt
 
