@@ -13,7 +13,7 @@ git clone https://github.com/Tsalyk/RAG-based-system-for-explainable-Movie-Searc
 ```
 3. Navigate clonned directory ```RAG-based-system-for-explainable-Movie-Search```
 4. Launch [Docker](https://www.docker.com/)
-5. Build docker containers with a command
+5. Build docker containers with a command:
 ```sh
 docker-compose up -d
 ```
