@@ -85,3 +85,16 @@ def search_movies(
                 }
     except Exception as e:
         return {"error": f"An error occurred: {str(e)}"}
+
+
+def is_db_api_alive() -> dict:
+    url = f"{os.getenv('DB_API')}/is_alive"
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            return response.json()
+        return {"error":
+                f"Request failed with status code {response.status_code}"
+                }
+    except Exception as e:
+        return {"error": f"An error occurred: {str(e)}"}

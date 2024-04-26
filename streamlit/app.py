@@ -6,7 +6,7 @@ import pandas as pd
 from dotenv import load_dotenv
 
 import streamlit as st
-from api_requests import extract_metadata, generate_reasoning, translate
+from api_requests import extract_metadata, generate_reasoning, translate, is_db_api_alive
 from utils import streamlit_search_movies, remove_emojis, count_empty_tables_proportion
 import time
 
@@ -26,17 +26,23 @@ def display_population_progress():
     bar = st.progress(0, text=progress_text)
     time_limit = 0
 
-    while time_limit < 20000:
-        progress = int((1 - count_empty_tables_proportion())*100)
-        bar.progress(progress, text=progress_text)
-        time_limit += 5
-        if progress > 99:
-            break
-        time.sleep(5)
+    if not st.session_state.get('db_ready', False):
+        while time_limit < 20000:
+            progress = int((1 - count_empty_tables_proportion())*100)
+            bar.progress(progress, text=progress_text)
+            time_limit += 5
 
-    time.sleep(60)
-    bar.empty()
-    st.session_state['db_ready'] = True
+            if progress > 99:
+                api_status = is_db_api_alive().get('status', '')
+                if api_status == 'alive':
+                    break
+                else:
+                    progress_text = "API is launching! Please, wait..."
+                    bar.progress(100, text=progress_text)
+            time.sleep(5)
+
+        bar.empty()
+        st.session_state['db_ready'] = True
 
 
 def display_movies(

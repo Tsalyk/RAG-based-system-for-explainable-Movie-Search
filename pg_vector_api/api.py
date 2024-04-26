@@ -38,3 +38,8 @@ async def search_movies(data: SearchMoviesInput) -> dict:
         return {"search_results": search_results}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/is_alive/")
+async def is_alive() -> dict:
+    return {'status': 'alive'}
