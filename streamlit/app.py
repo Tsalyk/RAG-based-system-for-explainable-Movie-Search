@@ -106,7 +106,7 @@ def display_movies(
         st.write(text)
         st.write("---")
 
-    if st.button(f'Show More ({counter+1}/{len(movies)})', key=f"show_more_{counter}"):
+    if st.button(f'Show Next ({counter+1}/{len(movies)})', key=f"show_more_{counter}"):
         st.session_state['counter'] = counter+1
         st.session_state['prev_query'] = query
         st.rerun()
