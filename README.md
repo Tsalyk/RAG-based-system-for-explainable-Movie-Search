@@ -24,7 +24,7 @@ in the root of navigated directory (approximately ~15 minutes)
    * push Runtime -> Run All button (approximately ~10 minutes)
 7. Navigate http://localhost:8501/, wait till data indexing is finished and have fun testing out the application
 
-```Note: steps 4 and 5 could be performed in parallel, you do not need to wait untill step 3 is finished```
+```Note: steps 4 and 5 could be performed in parallel, you do not need to wait untill step 4 is finished```
 ***
 
 ## Overview
