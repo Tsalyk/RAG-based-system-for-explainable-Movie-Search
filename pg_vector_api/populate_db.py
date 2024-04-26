@@ -1,10 +1,10 @@
 import ast
-import os
 
 import pandas as pd
 import psycopg2
 from dotenv import load_dotenv
 from tqdm import tqdm
+from db_initialization import init_db
 
 load_dotenv()
 
@@ -19,24 +19,6 @@ EMBEDDING_MODELS = [
     'bert-base-nli-mean-tokens',
     'gtr-t5-base'
 ]
-
-
-def init_db():
-    HOST = os.getenv('HOST')
-    USER = os.getenv('USER')
-    PASSWORD = os.getenv('PASSWORD')
-
-    # HOST = 'localhost'
-    # HOST = 'pgvector'
-    # USER = 'admin'
-    # PASSWORD = 'admin'
-
-    conn = psycopg2.connect(
-                        host=HOST,
-                        user=USER,
-                        password=PASSWORD
-                        )
-    return conn
 
 
 def load_data(chunking_strategy: str, embedding_model: str) -> pd.DataFrame:

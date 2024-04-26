@@ -1,6 +1,6 @@
 from sentence_transformers import SentenceTransformer
 
-from populate_db import init_db
+from db_initialization import init_db
 
 
 class VectorDB:

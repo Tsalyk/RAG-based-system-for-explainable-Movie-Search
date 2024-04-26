@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 
 import streamlit as st
 from api_requests import extract_metadata, generate_reasoning, translate
-from utils import streamlit_search_movies, remove_emojis
+from utils import streamlit_search_movies, remove_emojis, count_empty_tables_proportion
+import time
 
 load_dotenv()
 
@@ -18,6 +19,24 @@ def load_data():
     df = pd.read_csv(DATASET)
     df['genres'] = df['genres'].apply(ast.literal_eval)
     return df
+
+
+def display_population_progress():
+    progress_text = "Data Indexing in progress! Please, wait..."
+    bar = st.progress(0, text=progress_text)
+    time_limit = 0
+
+    while time_limit < 20000:
+        progress = int((1 - count_empty_tables_proportion())*100)
+        bar.progress(progress, text=progress_text)
+        time_limit += 5
+        if progress > 99:
+            break
+        time.sleep(5)
+
+    time.sleep(60)
+    bar.empty()
+    st.session_state['db_ready'] = True
 
 
 def display_movies(
@@ -121,29 +140,52 @@ def main():
     st.title('Movie Search App')
     st.session_state.setdefault('counter', 0)
     st.session_state.setdefault('prev_query', '')
+    st.session_state.setdefault('db_ready', False)
 
-    search_query = st.text_input('Enter movie title, genre, or description:')
-    search_query = translate(
-        text=search_query,
-        src_lang=remove_emojis(language),
-        tgt_lang="en"
-    )['translation']
+    disabled = True
 
-    movies, metadata = [], {'generated_response': ''}
-    if search_query:
-        metadata = extract_metadata(search_query)
-        try:
-            metadata = ast.literal_eval(metadata['generated_response'])
-        except Exception:
-            metadata = {}
-        movies = streamlit_search_movies(
-            chunking_strategy, embedding_model, search_query, metadata
+    db_ready = st.session_state.get('db_ready', False)
+
+    if not db_ready:
+        disabled = True
+        search_query = st.text_input(
+            'Enter movie title, genre, or description:',
+            key='disabled_search',
+            disabled=disabled
             )
-
-    if len(movies) > 0:
-        display_movies(movies, search_query, language)
+        display_population_progress()
+        disabled = False
+        st.rerun()
     else:
-        st.write('Try to search for some movies with description')
+        disabled = False
+
+    if not disabled:
+        search_query = st.text_input(
+            'Enter movie title, genre, or description:',
+            key='enabled_search',
+            disabled=disabled
+            )
+        search_query = translate(
+            text=search_query,
+            src_lang=remove_emojis(language),
+            tgt_lang="en"
+        )['translation']
+
+        movies, metadata = [], {'generated_response': ''}
+        if search_query:
+            metadata = extract_metadata(search_query)
+            try:
+                metadata = ast.literal_eval(metadata['generated_response'])
+            except Exception:
+                metadata = {}
+            movies = streamlit_search_movies(
+                chunking_strategy, embedding_model, search_query, metadata
+                )
+
+        if len(movies) > 0:
+            display_movies(movies, search_query, language)
+        else:
+            st.write('Try to search for some movies with description')
 
 
 if __name__ == "__main__":

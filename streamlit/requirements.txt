@@ -1,8 +1,7 @@
-langchain==0.1.11
 numpy==1.26.4
 pandas==1.5.3
-pinecone-client==3.1.0
 python-dotenv==1.0.1
+psycopg2-binary
 requests==2.31.0
 streamlit
 tqdm==4.66.2

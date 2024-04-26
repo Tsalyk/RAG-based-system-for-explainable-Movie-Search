@@ -19,11 +19,13 @@ services:
     ports:
       - 8501:8501
     environment:
-      - PINECONE_API_KEY=75911628-63ad-41be-b7cd-b294b07057ed
       - DATASET=/opt/app/data.csv
       - LLM_API=http://llm_api:8085
       - DB_API=http://pgvector-api:8080
       - TRANSLATOR=http://translator-api:8090
+      - HOST=pgvector
+      - USER=admin
+      - PASSWORD=admin
     volumes:
       - ./streamlit:/app
     networks:

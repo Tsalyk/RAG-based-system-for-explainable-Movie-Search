@@ -5,7 +5,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from pgvector import VectorDB
-from populate_db import init_db, populate_all
+from populate_db import populate_all
 
 load_dotenv()
 
