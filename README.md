@@ -43,7 +43,7 @@ criteria, leading to more personalized and tailored suggestions over time
 
 ## Workflow schemas
 ### Data indexing workflow
-<img src="https://github.com/Tsalyk/DomainSpecificAIAssistant/blob/main/assets/data_indexing.png" width="600" height="400">
+<img src="https://github.com/Tsalyk/DomainSpecificAIAssistant/blob/main/assets/data_indexing.png" width="500" height="400">
 
 ### Inference workflow
-<img src="https://github.com/Tsalyk/DomainSpecificAIAssistant/blob/main/assets/inference.png" width="1000" height="500">
+<img src="https://github.com/Tsalyk/DomainSpecificAIAssistant/blob/main/assets/inference.png" width="1300" height="500">
