@@ -109,6 +109,7 @@ def display_movies(
     if st.button(f'Show More ({counter+1}/{len(movies)})', key=f"show_more_{counter}"):
         st.session_state['counter'] = counter+1
         st.session_state['prev_query'] = query
+        st.rerun()
         display_movies(movies, query, language)
 
 
@@ -132,16 +133,16 @@ def main():
                                                 ]
                                                 )
     language = st.sidebar.selectbox(
-                                            'Select Language',
-                                            [
-                                                '🇬🇧en',
-                                                '🇺🇦uk',
-                                                '🇪🇸es',
-                                                '🇫🇷fr',
-                                                '🇩🇪de',
-                                                '🇮🇹it'
-                                                ]
-                                                )
+                                        'Select Generation Output Language',
+                                        [
+                                            '🇬🇧en',
+                                            '🇺🇦uk',
+                                            '🇪🇸es',
+                                            '🇫🇷fr',
+                                            '🇩🇪de',
+                                            '🇮🇹it'
+                                            ]
+                                            )
 
     st.title('Movie Search App')
     st.session_state.setdefault('counter', 0)
