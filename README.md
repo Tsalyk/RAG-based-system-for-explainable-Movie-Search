@@ -10,8 +10,12 @@
 ```Note: steps 5 and 6 can be performed in parallel, you do not need to wait untill step 5 is finished to start step 6```
 1. First clone the repository using the following command:
 ```sh
-git clone https://github.com/Tsalyk/RAG-based-system-for-explainable-Movie-Search.git
+git lfs clone https://github.com/Tsalyk/RAG-based-system-for-explainable-Movie-Search.git
 ```
+   * In case you do not have [GitLfs][https://git-lfs.com/] installed, check installation instructions
+   * Mac Homebrew ```brew install git-lfs```
+   * Ubuntu ```sudo apt-get install git-lfs```
+   * [Windows][https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage?platform=windows]
 2. Navigate clonned directory ```RAG-based-system-for-explainable-Movie-Search``` through terminal or code redactor
 3. Launch [Docker](https://www.docker.com/)
 4. In case your Docker disk memory is limited to less than 100 GB, increase this limit
