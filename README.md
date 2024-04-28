@@ -13,13 +13,16 @@ git clone https://github.com/Tsalyk/RAG-based-system-for-explainable-Movie-Searc
 ```
 2. Navigate clonned directory ```RAG-based-system-for-explainable-Movie-Search```
 3. Launch [Docker](https://www.docker.com/)
-4. Build docker containers with a command:
+4. In case your Docker disk memory is limited to less than 100 GB, increase this limit
+   * In Docker desktop select Settings -> Resources
+   * Scroll to Memory limit and increase it to at least 100 GB
+5. Build docker containers with a command:
 ```sh
 docker-compose up -d
 ```
 in the root of navigated directory (approximately ~15 minutes)
 
-5. Expose LLM server running [Google Colab notebook](https://colab.research.google.com/drive/1KZYaEtJDWsxzc9N3CWEIbcaVu2ipGgzG?usp=sharing)
+6. Expose LLM server running [Google Colab notebook](https://colab.research.google.com/drive/1KZYaEtJDWsxzc9N3CWEIbcaVu2ipGgzG?usp=sharing)
    * select GPU in Runtime -> Change runtime type tab (preferably T4 GPU)
    * push Runtime -> Run All button (approximately ~10 minutes)
 7. Navigate http://localhost:8501/, wait till data indexing is finished and have fun testing out the application
@@ -29,7 +32,7 @@ in the root of navigated directory (approximately ~15 minutes)
    * search tab in Streamlit UI will be locked till the end of the indexing process
    * in Streamlit UI, there is also a progress bar to track indexing status
 
-```Note: steps 4 and 5 can be performed in parallel, you do not need to wait untill step 4 is finished```
+```Note: steps 5 and 6 can be performed in parallel, you do not need to wait untill step 4 is finished```
 ***
 
 ## Overview
