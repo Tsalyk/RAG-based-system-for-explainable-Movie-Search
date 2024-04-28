@@ -5,7 +5,7 @@
 * [Timeline](https://docs.google.com/document/d/1aeqbfDCny26YenkR2OS5SquHwYyDr2x-pAUu2QmLaPs/edit)
 * [Paper](https://www.overleaf.com/5328894874bzgyjztmzxbb#f507a1)
 ***
-
+```Note: steps 5 and 6 can be performed in parallel, you do not need to wait untill step 4 is finished```
 ## Launch instructions
 1. First clone the repository using the following command:
 ```sh
@@ -31,8 +31,6 @@ in the root of navigated directory (approximately ~15 minutes)
    * each combination is represented by its own progress bar
    * search tab in Streamlit UI will be locked till the end of the indexing process
    * in Streamlit UI, there is also a progress bar to track indexing status
-
-```Note: steps 5 and 6 can be performed in parallel, you do not need to wait untill step 4 is finished```
 ***
 
 ## Overview
