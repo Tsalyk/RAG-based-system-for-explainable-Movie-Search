@@ -7,7 +7,7 @@
 ***
 ## Launch instructions
 
-```Note: steps 5 and 6 can be performed in parallel, you do not need to wait untill step 4 is finished```
+```Note: steps 5 and 6 can be performed in parallel, you do not need to wait untill step 5 is finished to start step 6```
 1. First clone the repository using the following command:
 ```sh
 git clone https://github.com/Tsalyk/RAG-based-system-for-explainable-Movie-Search.git
