@@ -16,7 +16,7 @@ git clone https://github.com/Tsalyk/RAG-based-system-for-explainable-Movie-Searc
 3. Launch [Docker](https://www.docker.com/)
 4. In case your Docker disk memory is limited to less than 100 GB, increase this limit
    * In Docker desktop select Settings -> Resources
-   * Scroll to Memory limit and increase it to at least 100 GB
+   * Scroll to Virtual Disk limit and increase it to at least 100 GB
 5. Build docker containers with a command:
 ```sh
 docker-compose up -d
