@@ -23,8 +23,13 @@ in the root of navigated directory (approximately ~15 minutes)
    * select GPU in Runtime -> Change runtime type tab (preferably T4 GPU)
    * push Runtime -> Run All button (approximately ~10 minutes)
 7. Navigate http://localhost:8501/, wait till data indexing is finished and have fun testing out the application
+   * status of data indexing can be tracked inside ```pgvector-api``` container
+   * in total, there should be indexed 9 combinations of chunking strategy and vector embedding model
+   * each combination is represented by its own progress bar
+   * search tab in Streamlit UI will be locked till the end of the indexing process
+   * in Streamlit UI, there is also a progress bar to track indexing status
 
-```Note: steps 4 and 5 could be performed in parallel, you do not need to wait untill step 4 is finished```
+```Note: steps 4 and 5 can be performed in parallel, you do not need to wait untill step 4 is finished```
 ***
 
 ## Overview
