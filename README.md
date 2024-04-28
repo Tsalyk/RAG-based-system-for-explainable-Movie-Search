@@ -5,8 +5,9 @@
 * [Timeline](https://docs.google.com/document/d/1aeqbfDCny26YenkR2OS5SquHwYyDr2x-pAUu2QmLaPs/edit)
 * [Paper](https://www.overleaf.com/5328894874bzgyjztmzxbb#f507a1)
 ***
-```Note: steps 5 and 6 can be performed in parallel, you do not need to wait untill step 4 is finished```
 ## Launch instructions
+
+```Note: steps 5 and 6 can be performed in parallel, you do not need to wait untill step 4 is finished```
 1. First clone the repository using the following command:
 ```sh
 git clone https://github.com/Tsalyk/RAG-based-system-for-explainable-Movie-Search.git
