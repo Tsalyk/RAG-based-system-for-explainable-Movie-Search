@@ -12,7 +12,7 @@
 ```sh
 git clone https://github.com/Tsalyk/RAG-based-system-for-explainable-Movie-Search.git
 ```
-2. Navigate clonned directory ```RAG-based-system-for-explainable-Movie-Search```
+2. Navigate clonned directory ```RAG-based-system-for-explainable-Movie-Search``` through terminal or code redactor
 3. Launch [Docker](https://www.docker.com/)
 4. In case your Docker disk memory is limited to less than 100 GB, increase this limit
    * In Docker desktop select Settings -> Resources
